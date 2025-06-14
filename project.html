@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="College Notice Board - A platform for managing and viewing college notices">
+  <title>College Notice Board</title>
+  <link rel="stylesheet" href="project.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header" role="banner">
+      <div class="header-content">
+        <div class="logo-container">
+          <div class="logo-icon" aria-hidden="true">📢</div>
+          <h1>College Notice Board</h1>
+          <span id="noticeCount" class="notice-count" aria-live="polite">0/100 notices</span>
+        </div>
+        <div class="header-controls">
+          <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </button>
+          <div id="userControls" class="user-controls" style="display: none;">
+            <span id="userName" class="user-name" aria-live="polite"></span>
+            <button id="logoutBtn" class="logout-btn" aria-label="Logout">
+              <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+            </button>
+          </div>
+          <button id="loginBtn" class="login-btn">
+            <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Login Form -->
+    <div id="loginFormContainer" class="login-form-container" role="dialog" aria-labelledby="loginFormTitle" aria-modal="true" hidden>
+      <div class="login-form">
+        <div class="form-header">
+          <h2 id="loginFormTitle">Admin Login</h2>
+          <button id="closeLoginBtn" class="close-form-btn" aria-label="Close login form">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="form-body">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter password" required autocomplete="current-password">
+          </div>
+        </div>
+        <div class="form-footer">
+          <button id="cancelLoginBtn" class="cancel-btn">Cancel</button>
+          <button id="submitLoginBtn" class="save-btn">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="content-wrapper" role="main">
+      <div class="controls-container">
+        <div class="search-filter">
+          <div class="search-box">
+            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+            <input type="text" id="searchInput" placeholder="Search notices..." aria-label="Search notices">
+            <button id="clearSearch" class="clear-search" style="display: none;" aria-label="Clear search">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="filter-sort-group">
+            <div class="select-wrapper">
+              <i class="fas fa-sort-amount-down sort-icon" aria-hidden="true"></i>
+              <select id="sortOption" aria-label="Sort notices by">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="alphabetical">Alphabetical</option>
+              </select>
+            </div>
+            <div class="select-wrapper">
+              <i class="fas fa-filter filter-icon" aria-hidden="true"></i>
+              <select id="categoryFilter" aria-label="Filter notices by category">
+                <option value="">All Categories</option>
+                <option value="academic">Academic</option>
+                <option value="social">Social</option>
+                <option value="sports">Sports</option>
+                <option value="important">Important</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button id="addNewBtn" class="add-notice-btn" aria-label="Add new notice">
+          <i class="fas fa-plus"></i> New Notice
+        </button>
+      </div>
+
+      <!-- Main Notices Section -->
+      <section class="notices-section" aria-label="Notices">
+        <div id="notices" class="notices-container">
+          <div class="notices-grid">
+            <!-- Notices will be dynamically added here -->
+          </div>
+        </div>
+        <div class="pagination" id="pagination" role="navigation" aria-label="Pagination"></div>
+      </section>
+
+      <!-- Notice Form -->
+      <div id="noticeFormContainer" class="notice-form-container" role="dialog" aria-labelledby="formTitle" aria-modal="true" hidden>
+        <div class="notice-form" id="noticeForm">
+          <div class="form-header">
+            <h2 id="formTitle">Add New Notice</h2>
+            <button id="closeFormBtn" class="close-form-btn" aria-label="Close form">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="form-body">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" placeholder="Enter notice title" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" placeholder="Enter notice details" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="academic">Academic</option>
+                <option value="social">Social</option>
+                <option value="sports">Sports</option>
+                <option value="important">Important</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="imageUpload">Image (Optional)</label>
+              <div class="image-upload-container">
+                <div class="upload-button">
+                  <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                  <span>Upload Image</span>
+                  <input type="file" id="imageUpload" name="imageUpload" accept="image/*" aria-label="Upload image">
+                </div>
+                <div class="image-preview-container">
+                  <img id="imagePreview" alt="Preview" style="display: none;">
+                  <button id="removeImageBtn" class="remove-image-btn" style="display: none;" aria-label="Remove image">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-footer">
+            <button id="cancelBtn" class="cancel-btn">Cancel</button>
+            <button id="saveNoticeBtn" class="save-btn">Add Notice</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notice Modal -->
+    <div id="noticeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-modal="true" hidden>
+      <div class="modal-content">
+        <div class="modal-header">
+          <button id="modalClose" class="close-modal" aria-label="Close modal">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div id="modalContent" class="modal-body">
+          <!-- Modal content will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="project.js"></script>
+</body>
+</html>
